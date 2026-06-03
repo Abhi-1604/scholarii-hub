@@ -23,6 +23,6 @@ function comingSoon(title: string, description: string) {
   };
 }
 
-export const Route = createFileRoute("/app/$rest")({
+export const Route = createFileRoute("/app/$")({
   component: comingSoon("Module", "This section is under construction"),
 });

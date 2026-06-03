@@ -18,7 +18,7 @@ import { Route as AppStudentsRouteImport } from './routes/app.students'
 import { Route as AppFeesRouteImport } from './routes/app.fees'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
-import { Route as AppRestRouteImport } from './routes/app.$rest'
+import { Route as AppSplatRouteImport } from './routes/app.$'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -65,9 +65,9 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
-const AppRestRoute = AppRestRouteImport.update({
-  id: '/$rest',
-  path: '/$rest',
+const AppSplatRoute = AppSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -75,7 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/$rest': typeof AppRestRoute
+  '/app/$': typeof AppSplatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
@@ -86,7 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/app/$rest': typeof AppRestRoute
+  '/app/$': typeof AppSplatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
@@ -99,7 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/$rest': typeof AppRestRoute
+  '/app/$': typeof AppSplatRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
@@ -113,7 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/app/$rest'
+    | '/app/$'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
@@ -124,7 +124,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/app/$rest'
+    | '/app/$'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
@@ -136,7 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/app/$rest'
+    | '/app/$'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
@@ -216,18 +216,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/$rest': {
-      id: '/app/$rest'
-      path: '/$rest'
-      fullPath: '/app/$rest'
-      preLoaderRoute: typeof AppRestRouteImport
+    '/app/$': {
+      id: '/app/$'
+      path: '/$'
+      fullPath: '/app/$'
+      preLoaderRoute: typeof AppSplatRouteImport
       parentRoute: typeof AppRoute
     }
   }
 }
 
 interface AppRouteChildren {
-  AppRestRoute: typeof AppRestRoute
+  AppSplatRoute: typeof AppSplatRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
   AppFeesRoute: typeof AppFeesRoute
@@ -237,7 +237,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppRestRoute: AppRestRoute,
+  AppSplatRoute: AppSplatRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppAnnouncementsRoute: AppAnnouncementsRoute,
   AppFeesRoute: AppFeesRoute,
