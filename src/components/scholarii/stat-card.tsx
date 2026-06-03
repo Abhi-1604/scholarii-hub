@@ -48,9 +48,9 @@ export function PageHeader({ title, description, action }: { title: string; desc
   );
 }
 
-export function SectionCard({ title, description, children, action }: { title: string; description?: string; children: React.ReactNode; action?: React.ReactNode }) {
+export function SectionCard({ title, description, children, action, className = "" }: { title: string; description?: string; children: React.ReactNode; action?: React.ReactNode; className?: string }) {
   return (
-    <Card className="p-5">
+    <Card className={`p-5 ${className}`}>
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="font-semibold">{title}</h3>
