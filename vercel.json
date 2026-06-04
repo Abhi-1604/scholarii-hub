@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".output/public",
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "env": {
+    "NITRO_PRESET": "node_server"
+  }
+}
