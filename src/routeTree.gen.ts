@@ -15,9 +15,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTeachersRouteImport } from './routes/app.teachers'
 import { Route as AppStudentsRouteImport } from './routes/app.students'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppScheduleRouteImport } from './routes/app.schedule'
 import { Route as AppFeesRouteImport } from './routes/app.fees'
 import { Route as AppAnnouncementsRouteImport } from './routes/app.announcements'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppAdmissionsRouteImport } from './routes/app.admissions'
+import { Route as AppAcademicsRouteImport } from './routes/app.academics'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 
 const LoginRoute = LoginRouteImport.update({
@@ -50,6 +54,16 @@ const AppStudentsRoute = AppStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppScheduleRoute = AppScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppFeesRoute = AppFeesRouteImport.update({
   id: '/fees',
   path: '/fees',
@@ -65,6 +79,16 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdmissionsRoute = AppAdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAcademicsRoute = AppAcademicsRouteImport.update({
+  id: '/academics',
+  path: '/academics',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSplatRoute = AppSplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -76,9 +100,13 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/app/$': typeof AppSplatRoute
+  '/app/academics': typeof AppAcademicsRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
+  '/app/schedule': typeof AppScheduleRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/': typeof AppIndexRoute
@@ -87,9 +115,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/app/$': typeof AppSplatRoute
+  '/app/academics': typeof AppAcademicsRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
+  '/app/schedule': typeof AppScheduleRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app': typeof AppIndexRoute
@@ -100,9 +132,13 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/app/$': typeof AppSplatRoute
+  '/app/academics': typeof AppAcademicsRoute
+  '/app/admissions': typeof AppAdmissionsRoute
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/announcements': typeof AppAnnouncementsRoute
   '/app/fees': typeof AppFeesRoute
+  '/app/schedule': typeof AppScheduleRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRoute
   '/app/teachers': typeof AppTeachersRoute
   '/app/': typeof AppIndexRoute
@@ -114,9 +150,13 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/app/$'
+    | '/app/academics'
+    | '/app/admissions'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
+    | '/app/schedule'
+    | '/app/settings'
     | '/app/students'
     | '/app/teachers'
     | '/app/'
@@ -125,9 +165,13 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/app/$'
+    | '/app/academics'
+    | '/app/admissions'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
+    | '/app/schedule'
+    | '/app/settings'
     | '/app/students'
     | '/app/teachers'
     | '/app'
@@ -137,9 +181,13 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/app/$'
+    | '/app/academics'
+    | '/app/admissions'
     | '/app/analytics'
     | '/app/announcements'
     | '/app/fees'
+    | '/app/schedule'
+    | '/app/settings'
     | '/app/students'
     | '/app/teachers'
     | '/app/'
@@ -195,6 +243,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppStudentsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/schedule': {
+      id: '/app/schedule'
+      path: '/schedule'
+      fullPath: '/app/schedule'
+      preLoaderRoute: typeof AppScheduleRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/fees': {
       id: '/app/fees'
       path: '/fees'
@@ -216,6 +278,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admissions': {
+      id: '/app/admissions'
+      path: '/admissions'
+      fullPath: '/app/admissions'
+      preLoaderRoute: typeof AppAdmissionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/academics': {
+      id: '/app/academics'
+      path: '/academics'
+      fullPath: '/app/academics'
+      preLoaderRoute: typeof AppAcademicsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/$': {
       id: '/app/$'
       path: '/$'
@@ -228,9 +304,13 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppSplatRoute: typeof AppSplatRoute
+  AppAcademicsRoute: typeof AppAcademicsRoute
+  AppAdmissionsRoute: typeof AppAdmissionsRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAnnouncementsRoute: typeof AppAnnouncementsRoute
   AppFeesRoute: typeof AppFeesRoute
+  AppScheduleRoute: typeof AppScheduleRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppStudentsRoute: typeof AppStudentsRoute
   AppTeachersRoute: typeof AppTeachersRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -238,9 +318,13 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppSplatRoute: AppSplatRoute,
+  AppAcademicsRoute: AppAcademicsRoute,
+  AppAdmissionsRoute: AppAdmissionsRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppAnnouncementsRoute: AppAnnouncementsRoute,
   AppFeesRoute: AppFeesRoute,
+  AppScheduleRoute: AppScheduleRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppStudentsRoute: AppStudentsRoute,
   AppTeachersRoute: AppTeachersRoute,
   AppIndexRoute: AppIndexRoute,
@@ -256,13 +340,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
