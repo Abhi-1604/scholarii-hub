@@ -1,9 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".output/public",
-  "trailingSlash": false,
-  "cleanUrls": true,
-  "env": {
-    "NITRO_PRESET": "node_server"
-  }
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
