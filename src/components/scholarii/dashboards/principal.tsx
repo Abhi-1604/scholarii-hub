@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  FileDown, Plus, Activity, AlertTriangle, Lightbulb, ChevronRight, Sparkles,
-  TrendingUp, CircleDot, Brain, Wallet, Users, GraduationCap, Building2,
+  FileDown, Plus, AlertTriangle, Lightbulb, ChevronRight, Sparkles,
+  TrendingUp, CircleDot, Brain, Wallet, Users, GraduationCap, Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -377,8 +377,3 @@ export default function PrincipalDashboard() {
     </div>
   );
 }
-
-// Unused but keeps Briefcase import-stable for tree shake
-void Briefcase;
-void Building2;
-void Activity;
