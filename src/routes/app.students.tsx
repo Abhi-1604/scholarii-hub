@@ -1,107 +1,111 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, Plus, FileDown, Upload, Eye } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PageHeader } from "@/components/scholarii/stat-card";
 import { students } from "@/lib/scholarii/mock-data";
+import { Users, UserCheck, AlertTriangle, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
-export const Route = createFileRoute("/app/students")({
-  component: StudentsPage,
-});
+export const Route = createFileRoute("/app/students")({ component: StudentsPage });
 
 function StudentsPage() {
   const [q, setQ] = useState("");
-  const [cls, setCls] = useState("all");
-  const [status, setStatus] = useState("all");
+  const [page, setPage] = useState(1);
+  const perPage = 10;
 
-  const filtered = useMemo(() => {
-    return students.filter((s) =>
-      (cls === "all" || s.class === cls) &&
-      (status === "all" || s.feeStatus === status) &&
-      (q === "" || s.name.toLowerCase().includes(q.toLowerCase()) || s.roll.includes(q)),
-    );
-  }, [q, cls, status]);
+  const filtered = useMemo(() => students.filter((s) =>
+    s.name.toLowerCase().includes(q.toLowerCase()) || s.id.toLowerCase().includes(q.toLowerCase())
+  ), [q]);
+
+  const totalPages = Math.ceil(filtered.length / perPage);
+  const paged = filtered.slice((page - 1) * perPage, page * perPage);
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Students"
-        description={`${filtered.length} of ${students.length} students`}
-        action={
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm"><Upload className="mr-1.5 h-4 w-4" />Import CSV</Button>
-            <Button variant="outline" size="sm"><FileDown className="mr-1.5 h-4 w-4" />Export</Button>
-            <Button size="sm" className="bg-gradient-brand text-primary-foreground"><Plus className="mr-1.5 h-4 w-4" />Add Student</Button>
-          </div>
-        }
+        title="Student Command Center"
+        description="Monitor attendance, performance, risk, and student operations in one intelligent workspace."
       />
 
-      <Card className="p-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="relative min-w-[220px] flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search by name or roll number…" value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
-          </div>
-          <Select value={cls} onValueChange={setCls}>
-            <SelectTrigger className="w-36"><SelectValue placeholder="Class" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All classes</SelectItem>
-              {Array.from({ length: 10 }, (_, i) => String(i + 1)).map((c) => (
-                <SelectItem key={c} value={c}>Class {c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger className="w-40"><SelectValue placeholder="Fee status" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="overdue">Overdue</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </Card>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        {[
+          { k: "Total Students", v: "430", sub: "Enrolled", icon: Users, c: "text-foreground" },
+          { k: "Present Today", v: "392", sub: "91.2%", icon: UserCheck, c: "text-success" },
+          { k: "Below 75% Attendance", v: "38", sub: "Students", icon: AlertTriangle, c: "text-warning" },
+          { k: "At-Risk Students", v: "38", sub: "Need attention", icon: AlertTriangle, c: "text-destructive" },
+          { k: "New Admissions", v: "18", sub: "This month", icon: Users, c: "text-info" },
+          { k: "Transfer Requests", v: "13", sub: "Pending", icon: AlertTriangle, c: "text-warning" },
+        ].map((s) => (
+          <Card key={s.k} className="p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-muted-foreground">{s.k}</p>
+              <s.icon className={`h-4 w-4 ${s.c}`} />
+            </div>
+            <p className="mt-1 text-2xl font-bold">{s.v}</p>
+            <p className="text-[11px] text-muted-foreground">{s.sub}</p>
+          </Card>
+        ))}
+      </div>
 
       <Card className="overflow-hidden">
+        <div className="border-b border-border p-5">
+          <h3 className="font-semibold">Student Directory</h3>
+          <p className="text-sm text-muted-foreground">Search and filter student records instantly.</p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="relative min-w-[260px] flex-1">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} placeholder="Search name, admission number, parent, phone…" className="pl-9" />
+            </div>
+            {["All classes", "All sections", "All status", "All attendance", "All performance", "All fees", "All risk"].map((f) => (
+              <select key={f} className="rounded-md border border-border bg-background px-3 py-1.5 text-sm"><option>{f}</option></select>
+            ))}
+            <Button variant="ghost" size="sm" onClick={() => setQ("")}>Clear</Button>
+          </div>
+        </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Student</TableHead>
-                <TableHead>Roll</TableHead>
+                <TableHead>Admission No</TableHead>
                 <TableHead>Class</TableHead>
-                <TableHead>Attendance</TableHead>
+                <TableHead>Attendance %</TableHead>
+                <TableHead>Academic Score</TableHead>
                 <TableHead>Fee Status</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+                <TableHead>Risk Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.slice(0, 25).map((s) => {
-                const initials = s.name.split(" ").map((n) => n[0]).join("");
-                const attColor = s.attendance >= 90 ? "text-success" : s.attendance >= 75 ? "text-warning" : "text-destructive";
+              {paged.map((s) => {
+                const initials = s.name.split(" ").map((n) => n[0]).slice(0, 2).join("");
+                const score = 50 + ((Number(s.roll) * 7) % 45);
+                const risk = s.attendance < 75 || score < 60 ? "Needs Attention" : "Healthy";
                 return (
                   <TableRow key={s.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8"><AvatarFallback className="bg-gradient-brand text-xs text-primary-foreground">{initials}</AvatarFallback></Avatar>
-                        <span className="font-medium">{s.name}</span>
+                        <Avatar className="h-8 w-8"><AvatarFallback className="bg-gradient-brand text-[11px] text-primary-foreground">{initials}</AvatarFallback></Avatar>
+                        <div>
+                          <p className="text-sm font-medium">{s.name}</p>
+                          <p className="text-[11px] text-muted-foreground">Parent: Mr/Mrs {s.name.split(" ")[1]}</p>
+                        </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{s.roll}</TableCell>
-                    <TableCell>{s.class}-{s.section}</TableCell>
-                    <TableCell className={attColor}>{s.attendance}%</TableCell>
+                    <TableCell className="text-sm">{s.class}{s.section}{s.roll.padStart(2, "0")}</TableCell>
+                    <TableCell className="text-sm">Grade {s.class}-{s.section}</TableCell>
+                    <TableCell className={`font-medium ${s.attendance < 90 ? "text-warning" : "text-success"}`}>{s.attendance}%</TableCell>
+                    <TableCell className="font-medium">{score}</TableCell>
                     <TableCell>
-                      <Badge variant={s.feeStatus === "paid" ? "default" : s.feeStatus === "pending" ? "secondary" : "destructive"} className="capitalize">{s.feeStatus}</Badge>
+                      <Badge variant={s.feeStatus === "paid" ? "secondary" : s.feeStatus === "overdue" ? "destructive" : "outline"} className="capitalize">
+                        {s.feeStatus}
+                      </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm"><Eye className="h-4 w-4" /></Button>
+                    <TableCell>
+                      <Badge variant={risk === "Healthy" ? "secondary" : "destructive"}>{risk}</Badge>
                     </TableCell>
                   </TableRow>
                 );
@@ -109,11 +113,12 @@ function StudentsPage() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-between border-t border-border px-4 py-3 text-sm text-muted-foreground">
-          <span>Showing {Math.min(25, filtered.length)} of {filtered.length}</span>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" disabled>Previous</Button>
-            <Button variant="outline" size="sm">Next</Button>
+        <div className="flex items-center justify-between border-t border-border px-5 py-3 text-xs text-muted-foreground">
+          <span>Showing {(page - 1) * perPage + 1}–{Math.min(page * perPage, filtered.length)} of {filtered.length}</span>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}><ChevronLeft className="h-3 w-3" /></Button>
+            <span>{page}/{totalPages || 1}</span>
+            <Button size="sm" variant="outline" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}><ChevronRight className="h-3 w-3" /></Button>
           </div>
         </div>
       </Card>
